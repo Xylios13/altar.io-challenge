@@ -1,0 +1,47 @@
+<!-- Generation button -->
+<button mat-stroked-button
+	name="generation-button"
+	(click)="generateOnClick()">
+  Generate 2D Grid
+</button>
+<!-- Clock -->
+<div>
+  {{ time | date: 'HH:mm:ss' }}
+</div>
+<!-- Grid -->
+<mat-grid-list [cols]="columns + 1" [rowHeight]="getRowHeight()">
+  <!-- Cell 0 0 -->
+  <mat-grid-tile> </mat-grid-tile>
+  <!-- Row with column indexes -->
+  <ng-container *ngFor="let cell of grid[0]; let columnIndex = index">
+    <!-- Cell for column index -->
+      <mat-grid-tile>
+	{{columnIndex}}
+      </mat-grid-tile>
+  </ng-container>
+
+  <!-- Grid with row index column -->
+  <ng-container *ngFor="let row of grid; let rowIndex = index">
+    <!-- Cell for row index -->
+    <mat-grid-tile>
+      {{rowIndex}}
+    </mat-grid-tile>
+    <!-- Cells for grid[column][row] -->
+    <ng-container *ngFor="let cell of row; let rowIndex = index">
+      <mat-grid-tile colspan="1">
+	{{displayCellValue(cell)}}
+      </mat-grid-tile>
+    </ng-container>
+  </ng-container>
+</mat-grid-list>
+<!-- Live status -->
+<div *ngIf="generating else standby">
+  Live!
+  <!-- Code -->
+  <div mat-stroked-button>
+    {{code}}
+  </div>
+</div>
+<ng-template #standby>
+  Standby
+</ng-template>
