@@ -3,6 +3,7 @@ import { first, interval, map, Subscription, timer } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { Grid } from '../grid';
 
 interface Digits {
     first: number;
@@ -30,7 +31,7 @@ export class GeneratorComponent implements OnInit {
 
     generationTime = 2000;
 
-    grid: number[][] = [];
+    grid: Grid = new Grid(this.rows, this.columns);
 
     // Minimum and maximum possible values for the cell (both limits are included).
     private cellValueRange = { min: 'a'.charCodeAt(0), max: 'z'.charCodeAt(0) };
@@ -61,8 +62,6 @@ export class GeneratorComponent implements OnInit {
     }
 
     ngOnInit(): void {
-	this.weightedCharacterFormControl
-	this.populate(true);
 	this.startClock();
 	this.weightedCharacterFormControl.setValue('');
     }
@@ -118,7 +117,7 @@ export class GeneratorComponent implements OnInit {
 	return denominator > 0 ? Math.floor(value/denominator) : value;
     }
 
-    populate(emptyGrid?: boolean) {
+    populate() {
 	this.displayedColumns = [this.rowIndexName];
 	this.gridCellCount.clear();
 	let weightedCharacter = this.weightedCharacterFormControl.value.toLowerCase();
@@ -127,26 +126,24 @@ export class GeneratorComponent implements OnInit {
 	let emptySpecialCells = emptyCells * 0.2;
 	for (let row = 0; row < this.rows; row++) {
 	    this.displayedColumns.push(row.toString());
-	    this.grid[row] = [];
+	    // this.grid[row] = [];
 	    for (let column = 0; column < this.columns; column++) {
 		let randomValue = ' '.charCodeAt(0);
 		let specialWeight = emptySpecialCells / emptyCells;
 		let specialRandom = Math.random();
-		if (!emptyGrid) {
-		    if (weightedCharacter !== '' && specialRandom - specialWeight <= 0) {
-			randomValue = weightedCharacterCode;
-		    } else {
+		if (weightedCharacter !== '' && specialRandom - specialWeight <= 0) {
+		    randomValue = weightedCharacterCode;
+		} else {
+		    randomValue = this.generateCellValue();
+		    while (emptySpecialCells === 0 && randomValue === weightedCharacterCode) {
 			randomValue = this.generateCellValue();
-			while (emptySpecialCells === 0 && randomValue === weightedCharacterCode) {
-			    randomValue = this.generateCellValue();
-			}
 		    }
-		    if (randomValue === weightedCharacterCode) {
-			emptySpecialCells -= 1;
-		    }
-		    emptyCells -= 1;
 		}
-		this.grid[row][column] = randomValue;
+		if (randomValue === weightedCharacterCode) {
+		    emptySpecialCells -= 1;
+		}
+		emptyCells -= 1;
+		this.grid.set(row, column,randomValue);
 		let currentSum = this.gridCellCount.get(randomValue);
 		this.gridCellCount.set(randomValue, currentSum ? currentSum + 1 : 1);
 	    }
@@ -156,8 +153,8 @@ export class GeneratorComponent implements OnInit {
 	//     console.log(`${String.fromCharCode(key)} => ${value}`);
 	// });
 	let digits = this.getDigits(this.time.getSeconds());
-	let secondCodeDigit = this.gridCellCount.get(this.grid[digits.second][digits.first]);
-	let firstCodeDigit = this.gridCellCount.get(this.grid[digits.first][digits.second]);
+	let secondCodeDigit = this.gridCellCount.get(this.grid.get(digits.second, digits.first));
+	let firstCodeDigit = this.gridCellCount.get(this.grid.get(digits.first, digits.second));
 	if (firstCodeDigit && secondCodeDigit) {
 	    this.code = this.fixCodeDigit(secondCodeDigit) * 10 + this.fixCodeDigit(firstCodeDigit);
 	}

@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { MatTableModule } from '@angular/material/table';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
@@ -19,13 +20,14 @@ import { AppRoutingModule } from './app-routing.module';
 	PaymentsComponent
     ],
     imports: [
+	AppRoutingModule,
+	BrowserAnimationsModule,
 	BrowserModule,
 	FormsModule,
-	BrowserAnimationsModule,
-	AppRoutingModule,
-	MatGridListModule,
 	MatButtonModule,
+	MatGridListModule,
 	MatInputModule,
+	MatTableModule,
 	ReactiveFormsModule
     ],
     providers: [],

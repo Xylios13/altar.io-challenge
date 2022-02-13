@@ -30,7 +30,7 @@
     <!-- Cell 0 0 -->
     <mat-grid-tile> </mat-grid-tile>
     <!-- Row with column indexes -->
-    <ng-container *ngFor="let cell of grid[0]; let columnIndex = index">
+    <ng-container *ngFor="let cell of grid.getRow(0); let columnIndex = index">
       <!-- Cell for column index -->
       <mat-grid-tile>
 	{{columnIndex}}

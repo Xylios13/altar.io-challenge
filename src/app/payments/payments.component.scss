@@ -1,0 +1,16 @@
+table {
+    width: 100vw;
+    margin: auto;
+}
+
+.add-payment-form {
+    margin: 10px;
+}
+
+.mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
+.mat-form-field + button {
+  margin-left: 8px;
+}
