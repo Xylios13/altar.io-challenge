@@ -20,3 +20,28 @@ mat-grid-tile {
     // background: lightblue;
     border: 1px solid;
 }
+
+.weighted-character {
+    width: 200px;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.centered-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    // flex-direction: column;
+    // gap: 10px;
+}
+
+.break {
+  flex-basis: 100%;
+  height: 0;
+}

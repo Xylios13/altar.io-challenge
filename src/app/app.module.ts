@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { GeneratorComponent } from './generator/generator.component';
@@ -19,9 +21,12 @@ import { AppRoutingModule } from './app-routing.module';
     imports: [
 	BrowserModule,
 	FormsModule,
+	BrowserAnimationsModule,
 	AppRoutingModule,
 	MatGridListModule,
-	MatButtonModule
+	MatButtonModule,
+	MatInputModule,
+	ReactiveFormsModule
     ],
     providers: [],
     bootstrap: [AppComponent]
