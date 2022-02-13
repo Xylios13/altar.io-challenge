@@ -148,20 +148,40 @@ export class GeneratorComponent implements OnInit {
     populate(emptyGrid?: boolean) {
 	this.displayedColumns = [this.rowIndexName];
 	this.gridCellCount.clear();
+	let weightedCharacter = this.weightedCharacterFormControl.value.toLowerCase();
+	let weightedCharacterCode = weightedCharacter.charCodeAt(0);
+	let emptyCells = this.rows * this.columns;
+	let emptySpecialCells = emptyCells * 0.2;
 	for (let row = 0; row < this.rows; row++) {
 	    this.displayedColumns.push(row.toString());
 	    this.grid[row] = [];
 	    for (let column = 0; column < this.columns; column++) {
-		let randomValue = emptyGrid ? ' '.charCodeAt(0) : this.generateCellValue(this.weightedCharacterFormControl.value.toLowerCase());
+		let randomValue = ' '.charCodeAt(0);
+		let specialWeight = emptySpecialCells / emptyCells;
+		let specialRandom = Math.random();
+		if (!emptyGrid) {
+		    if (weightedCharacter !== '' && specialRandom - specialWeight <= 0) {
+			randomValue = weightedCharacterCode;
+		    } else {
+			randomValue = this.generateCellValue();
+			while (emptySpecialCells === 0 && randomValue === weightedCharacterCode) {
+			    randomValue = this.generateCellValue();
+			}
+		    }
+		    if (randomValue === weightedCharacterCode) {
+			emptySpecialCells -= 1;
+		    }
+		    emptyCells -= 1;
+		}
 		this.grid[row][column] = randomValue;
 		let currentSum = this.gridCellCount.get(randomValue);
 		this.gridCellCount.set(randomValue, currentSum ? currentSum + 1 : 1);
 	    }
 	}
-	this.grid.forEach(column => console.log(column.map(value => this.displayCellValue(value))));
-	this.gridCellCount.forEach((value: number, key: number) => {
-	    console.log(`${String.fromCharCode(key)} => ${value}`);
-	});
+	// this.grid.forEach(column => console.log(column.map(value => this.displayCellValue(value))));
+	// this.gridCellCount.forEach((value: number, key: number) => {
+	//     console.log(`${String.fromCharCode(key)} => ${value}`);
+	// });
 	let digits = this.getDigits(this.time.getSeconds());
 	let secondCodeDigit = this.gridCellCount.get(this.grid[digits.second][digits.first]);
 	let firstCodeDigit = this.gridCellCount.get(this.grid[digits.first][digits.second]);
