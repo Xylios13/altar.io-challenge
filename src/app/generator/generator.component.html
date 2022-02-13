@@ -25,30 +25,32 @@
   </button>
 </div>
 <!-- Grid -->
-<mat-grid-list [cols]="columns + 1" [rowHeight]="getRowHeight()">
-  <!-- Cell 0 0 -->
-  <mat-grid-tile> </mat-grid-tile>
-  <!-- Row with column indexes -->
-  <ng-container *ngFor="let cell of grid[0]; let columnIndex = index">
-    <!-- Cell for column index -->
-    <mat-grid-tile>
-      {{columnIndex}}
-    </mat-grid-tile>
-  </ng-container>
-  <!-- Grid with row index column -->
-  <ng-container *ngFor="let row of grid; let rowIndex = index">
-    <!-- Cell for row index -->
-    <mat-grid-tile>
-      {{rowIndex}}
-    </mat-grid-tile>
-    <!-- Cells for grid[column][row] -->
-    <ng-container *ngFor="let cell of row; let rowIndex = index">
-      <mat-grid-tile colspan="1">
-	{{displayCellValue(cell)}}
+<div class="grid-container">
+  <mat-grid-list [cols]="columns + 1" [rowHeight]="getRowHeight()">
+    <!-- Cell 0 0 -->
+    <mat-grid-tile> </mat-grid-tile>
+    <!-- Row with column indexes -->
+    <ng-container *ngFor="let cell of grid[0]; let columnIndex = index">
+      <!-- Cell for column index -->
+      <mat-grid-tile>
+	{{columnIndex}}
       </mat-grid-tile>
     </ng-container>
-  </ng-container>
-</mat-grid-list>
+    <!-- Grid with row index column -->
+    <ng-container *ngFor="let row of grid; let rowIndex = index">
+      <!-- Cell for row index -->
+      <mat-grid-tile>
+	{{rowIndex}}
+      </mat-grid-tile>
+      <!-- Cells for grid[column][row] -->
+      <ng-container *ngFor="let cell of row; let rowIndex = index">
+	<mat-grid-tile colspan="1">
+	  {{displayCellValue(cell)}}
+	</mat-grid-tile>
+      </ng-container>
+    </ng-container>
+  </mat-grid-list>
+</div>
 <!-- Live status -->
 <div class="centered-container">
   <div class="live-status" *ngIf="generating else standby">
@@ -56,9 +58,10 @@
   </div>
   <div class="break"></div> <!-- break -->
   <!-- Code -->
-  <div mat-stroked-button *ngIf="generating">
-    {{code}}
-  </div>
+  <button mat-stroked-button *ngIf="generating"
+	  disabled=true>
+    Your code: {{code}}
+  </button>
 </div>
 <ng-template #standby>
   Standby

@@ -24,26 +24,26 @@ export class WeightedCharacterMatcher implements ErrorStateMatcher {
     styleUrls: ['./generator.component.scss']
 })
 export class GeneratorComponent implements OnInit {
-    rows: number;
+    rows = 10;
 
-    columns: number;
+    columns = 10;
 
-    generationTime: number;
+    generationTime = 2000;
 
-    grid: number[][];
+    grid: number[][] = [];
 
     // Minimum and maximum possible values for the cell (both limits are included).
     private cellValueRange = { min: 'a'.charCodeAt(0), max: 'z'.charCodeAt(0) };
 
-    displayedColumns: string[];
+    displayedColumns: string[] = [];
 
     rowIndexName = 'row-index';
 
-    generationSubscription: Subscription | null;
+    generationSubscription: Subscription | null = null;
 
     time: Date = new Date();
 
-    timeSubscription: Subscription | null;
+    timeSubscription: Subscription | null = null;
 
     gridCellCount: Map<number, number> = new Map();
 
@@ -57,19 +57,7 @@ export class GeneratorComponent implements OnInit {
 
     weights: number[] = [];
 
-    // generationEvent: Observable<boolean>;
-
-    // displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-    // dataSource = ELEMENT_DATA;
-
     constructor() {
-	this.rows = 10;
-	this.columns = 10;
-	this.generationTime = 2000;
-	this.grid = [];
-	this.displayedColumns = [];
-	this.generationSubscription = null;
-	this.timeSubscription = null;
     }
 
     ngOnInit(): void {
@@ -81,10 +69,7 @@ export class GeneratorComponent implements OnInit {
 
     startClock() {
 	this.timeSubscription = timer(0, 1000)
-	    .pipe(
-		map(() => new Date()),
-		// share()
-	    )
+	    .pipe(map(() => new Date()))
 	    .subscribe(time => {
 		this.time = time;
 	    });
@@ -97,10 +82,6 @@ export class GeneratorComponent implements OnInit {
 	if (weightedCharacter && weightedCharacter !== '') {
 	    let weightedIndex = weightedCharacter.charCodeAt(0) - min;
 	    let defaultWeight = (1 - weight) / (totalCharacters - 1);
-
-	    // this.weights[i] = i === weightedIndex ? weight : defaultWeight;
-
-	    // let weightedSum = this.nthTriangleNumber(totalCharacters);
 	    let random = Math.random();
 	    for (let i = 0; i < totalCharacters; i ++) {
 		let currentWeight = i === weightedIndex ? weight : defaultWeight;
@@ -135,14 +116,6 @@ export class GeneratorComponent implements OnInit {
 	// If the secondDigit is greater than 0, then the value is greater than 9.
 	let denominator = digits.second > 0 ? digits.second + 1 : 0;
 	return denominator > 0 ? Math.floor(value/denominator) : value;
-    }
-
-    nthTriangleNumber(value: number) {
-	let sum = 0;
-	for (let n = value; n > 0; n--) {
-	    sum += n;
-	}
-	return sum;
     }
 
     populate(emptyGrid?: boolean) {
@@ -191,7 +164,7 @@ export class GeneratorComponent implements OnInit {
     }
 
     getRowHeight(): string {
-	return Math.floor(100 / (this.rows + 1)) - 1 + 'vh';
+	return Math.floor(80 / (this.rows + 1)) - 1 + 'vh';
     }
 
     generateOnClick() {
