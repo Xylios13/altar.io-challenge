@@ -1,4 +1,4 @@
-import { first, interval, map, Subscription, timer } from 'rxjs';
+import { first, interval, map, mergeMap, Subject, Subscription, take, timer } from 'rxjs';
 
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
@@ -40,8 +40,6 @@ export class GeneratorComponent implements OnInit {
 
     rowIndexName = 'row-index';
 
-    generationSubscription: Subscription | null = null;
-
     time: Date = new Date();
 
     timeSubscription: Subscription | null = null;
@@ -58,12 +56,23 @@ export class GeneratorComponent implements OnInit {
 
     weights: number[] = [];
 
+    generation$ = new Subject<void>();
+
     constructor() {
     }
 
     ngOnInit(): void {
 	this.startClock();
 	this.weightedCharacterFormControl.setValue('');
+	this.generation$
+	    .pipe(
+		take(1),
+		mergeMap(_ => {
+		    return timer(0, this.generationTime);
+		})
+	    ).subscribe(_ => {
+		this.populate();
+	    });
     }
 
     startClock() {
@@ -162,14 +171,6 @@ export class GeneratorComponent implements OnInit {
 
     getRowHeight(): string {
 	return Math.floor(80 / (this.rows + 1)) - 1 + 'vh';
-    }
-
-    generateOnClick() {
-	this.generating = true;
-	if (this.generationSubscription) {
-	    this.generationSubscription.unsubscribe();
-	}
-	this.generationSubscription = timer(0, this.generationTime).subscribe((_n: number) => this.populate());
     }
 
     weightedCharacterOnInput() {
