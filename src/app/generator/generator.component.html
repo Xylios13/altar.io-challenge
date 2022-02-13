@@ -20,13 +20,13 @@
   <!-- Generation button -->
   <button mat-stroked-button
 	  name="generation-button"
-	  (click)="generation$.next()">
+	  (click)="generationOnClick()">
     Generate 2D Grid
   </button>
 </div>
 <!-- Grid -->
 <div class="grid-container">
-  <mat-grid-list [cols]="columns + 1" [rowHeight]="getRowHeight()">
+  <mat-grid-list [cols]="getColumns() + 1" [rowHeight]="getRowHeight()">
     <!-- Cell 0 0 -->
     <mat-grid-tile> </mat-grid-tile>
     <!-- Row with column indexes -->
