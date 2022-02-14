@@ -4,6 +4,7 @@ import { MatTable } from '@angular/material/table';
 
 import { Grid } from '../grid';
 import { GridService } from '../grid.service';
+import { PaymentsService } from '../payments.service';
 
 
 export interface Payment {
@@ -12,12 +13,6 @@ export interface Payment {
     code: string;
     grid: Grid;
 }
-
-const PAYMENT_DATA: Payment[] = [
-    {name: 'Hydrogen', amount: 1.0079, code: '89', grid: new Grid(10, 10)},
-    {name: 'Switch', amount: 300, code: '77', grid: new Grid(10, 10)},
-    {name: 'PS5', amount: 500, code: '15', grid: new Grid(10, 10)},
-];
 
 @Component({
     selector: 'app-payments',
@@ -29,8 +24,6 @@ export class PaymentsComponent implements OnInit {
 
     grid: Grid = new Grid(0, 0);
 
-    payments: Payment[] = PAYMENT_DATA;
-
     addPaymentFormGroup: FormGroup = new FormGroup({});
 
     nameFormControl: FormControl = new FormControl();
@@ -39,7 +32,7 @@ export class PaymentsComponent implements OnInit {
 
     @ViewChild(MatTable) table: MatTable<Payment> | undefined;
 
-    constructor(private gridService: GridService) { }
+    constructor(private gridService: GridService, private paymentsService: PaymentsService) { }
 
     ngOnInit(): void {
 	this.gridService.grid$.subscribe({
@@ -57,11 +50,15 @@ export class PaymentsComponent implements OnInit {
 	return this.grid;
     }
 
+    getPayments(): Payment[] {
+	return this.paymentsService.getPayments();
+    }
+
     onFormSubmit() {
 	console.log(this.addPaymentFormGroup.get('name'));
 	if (this.nameFormControl.valid && this.amountFormControl.valid) {
 	    let grid = this.getGrid();
-	    this.payments.push({
+	    this.paymentsService.add({
 		name: this.nameFormControl.value,
 		amount: this.amountFormControl.value,
 		code: this.getCode(grid),
