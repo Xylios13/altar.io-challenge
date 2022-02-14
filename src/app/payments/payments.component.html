@@ -1,7 +1,7 @@
+<a routerLink="/generator">Generator</a>
 <!-- Code information -->
 
 <!-- Add payment -->
-
 <form class="add-payment-form"
       [formGroup]="addPaymentFormGroup"
       (ngSubmit)="onFormSubmit()">
@@ -24,7 +24,6 @@
     + Add
   </button>
 </form>
-
 <!-- Payments -->
 <table mat-table [dataSource]="payments" class="mat-elevation-z8">
 
