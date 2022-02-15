@@ -47,9 +47,6 @@ export class GeneratorComponent implements OnInit {
     generation$ = new Subject<void>();
 
     constructor(private gridService: GridService, private timeService: TimeService) {
-    }
-
-    ngOnInit(): void {
 	this.timeService.time$.subscribe({
 	    next: (time: Date) => { this.time = time }
 	});
@@ -57,6 +54,11 @@ export class GeneratorComponent implements OnInit {
 	    next: (grid: Grid) => { this.grid = grid, this.code = grid.getCode() }
 	});
 	this.weightedCharacterFormControl.setValue('');
+    }
+
+    ngOnInit(): void {
+	this.grid = this.gridService.getGrid();
+	this.weightedCharacterFormControl.setValue(this.gridService.weightedCharacter);
     }
 
     getColumns(): number {
