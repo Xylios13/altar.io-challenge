@@ -1,11 +1,11 @@
-<a routerLink="/generator">Generator</a>
+<a mat-stroked-button routerLink="/generator" class="margin-left margin-bottom">Generator</a>
 <!-- Code information -->
 
 <!-- Add payment -->
 <form class="add-payment-form"
       [formGroup]="addPaymentFormGroup"
       (ngSubmit)="onFormSubmit()">
-  <mat-form-field>
+  <mat-form-field class="margin-left">
     <mat-label>Payment</mat-label>
     <input matInput
 	   type="text"

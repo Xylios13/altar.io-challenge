@@ -1,7 +1,7 @@
-<a routerLink="/payments">Payments</a>
+<a mat-stroked-button routerLink="/payments" class="margin-left margin-bottom">Payments</a>
 <div class="container">
   <!-- Weighted character -->
-  <mat-form-field class="weighted-character" appearance="fill">
+  <mat-form-field class="weighted-character margin-left" appearance="fill">
     <mat-label>Weighted character</mat-label>
     <input matInput
 	   type="text"
@@ -9,7 +9,7 @@
 	   [formControl]="weightedCharacterFormControl"
 	   [errorStateMatcher]="weightedCharacterMatcher"
 	   (input)="weightedCharacterOnInput()">
-    <mat-hint align="end">{{weightedCharacterFormControl.value.length}} / 1</mat-hint>
+    <mat-hint align="end">{{weightedCharacterFormControl.value.length}}/1</mat-hint>
     <mat-error *ngIf="weightedCharacterFormControl.hasError('pattern')">
       Enter a character from 'a' to 'z'
     </mat-error>
@@ -20,6 +20,7 @@
   </div>
   <!-- Generation button -->
   <button mat-stroked-button
+	  class="margin-right"
 	  name="generation-button"
 	  (click)="generationOnClick()">
     Generate 2D Grid
