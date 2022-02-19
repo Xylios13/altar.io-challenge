@@ -39,7 +39,7 @@ export class GridService {
 	    ).subscribe(_ => {
 		this.populateGrid(this.weightedCharacter);
 		this.grid$.next(this.grid);
-	    })
+	    });
     }
 
     getEmptyCode(): string {

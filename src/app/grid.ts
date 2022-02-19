@@ -1,9 +1,9 @@
 export const EMPTY_CODE = '';
 
 interface Digits {
-    first: number;
+    ones: number;
 
-    second: number;
+    tens: number;
 }
 
 export class Grid implements Iterable<Array<number>> {
@@ -78,19 +78,19 @@ export class Grid implements Iterable<Array<number>> {
 		this.gridCellCount.set(randomValue, currentSum ? currentSum + 1 : 1);
 	    }
 	}
-	// this.grid.forEach(column => console.log(column.map(value => String.fromCharCode(value))));
-	// this.gridCellCount.forEach((value: number, key: number) => {
-	//     console.log(`${String.fromCharCode(key)} => ${value}`);
-	// });
+	this.calculateCode(time);
+    }
+
+    calculateCode(time: Date) {
 	let digits = this.getDigits(time.getSeconds());
-	let secondCodeDigit = this.gridCellCount.get(this.getCell(digits.second, digits.first));
-	let firstCodeDigit = this.gridCellCount.get(this.getCell(digits.first, digits.second));
-	if (firstCodeDigit && secondCodeDigit) {
-	    this.code = this.correctCodeDigit(secondCodeDigit).toString() + this.correctCodeDigit(firstCodeDigit).toString();
+	let tensCodeDigit = this.gridCellCount.get(this.getCell(digits.tens, digits.ones));
+	let onesCodeDigit = this.gridCellCount.get(this.getCell(digits.ones, digits.tens));
+	if (onesCodeDigit && tensCodeDigit) {
+	    this.code = this.correctCodeDigit(tensCodeDigit).toString() + this.correctCodeDigit(onesCodeDigit).toString();
 	}
     }
 
-    private generateCell(weightedCharacter?: string, weight = 0.2): number {
+    generateCell(weightedCharacter?: string, weight = 0.2): number {
 	let min = this.cellValueRange.min;
 	let max = this.cellValueRange.max + 1; // Adding one to include the max value
 	let totalCharacters = max - min;
@@ -113,19 +113,19 @@ export class Grid implements Iterable<Array<number>> {
 
     }
 
-    private getDigits(value: number): Digits {
-	let firstDigit = value % 10;
-	let secondDigit = (value - firstDigit) / 10;
+    getDigits(value: number): Digits {
+	let onesDigit = value % 10;
+	let tensDigit = (value - onesDigit) / 10;
 	return {
-	    first: firstDigit,
-	    second: secondDigit
+	    ones: onesDigit,
+	    tens: tensDigit
 	};
     }
 
     private correctCodeDigit(value: number): number {
 	let digits = this.getDigits(value);
 	// If the secondDigit is greater than 0, then the value is greater than 9.
-	let denominator = digits.second > 0 ? digits.second + 1 : 0;
+	let denominator = digits.tens > 0 ? digits.tens + 1 : 0;
 	return denominator > 0 ? Math.floor(value/denominator) : value;
     }
 }
