@@ -1,0 +1,14 @@
+<div class="centered-container">
+  <div class="live-status" *ngIf="generating() else standby">
+    Live!
+  </div>
+  <div class="break"></div> <!-- break -->
+  <!-- Code -->
+  <mat-card mat-stroked-button *ngIf="generating()"
+	  disabled=true>
+    Your code: {{code}}
+  </mat-card>
+</div>
+<ng-template #standby>
+  Standby
+</ng-template>

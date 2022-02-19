@@ -4,6 +4,7 @@ import { mergeMap, Subject, take, timer } from 'rxjs';
 import { Grid } from './grid';
 import { TimeService } from './time.service';
 
+export const EMPTY_CODE = '';
 
 @Injectable({
     providedIn: 'root'
@@ -14,8 +15,6 @@ export class GridService {
     rows = 10;
 
     columns = 10;
-
-    code = '';
 
     codeGenerationInterval = 2000;
 
@@ -43,6 +42,10 @@ export class GridService {
 		this.populateGrid(this.weightedCharacter);
 		this.grid$.next(this.grid);
 	    })
+    }
+
+    getCode(): string {
+	return this.grid.code;
     }
 
     getGrid(): Grid {

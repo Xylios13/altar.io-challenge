@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatTable } from '@angular/material/table';
 
 import { Grid } from '../grid';
-import { GridService } from '../grid.service';
+import { EMPTY_CODE, GridService } from '../grid.service';
 import { PaymentsService } from '../payments.service';
 
 
@@ -30,24 +30,34 @@ export class PaymentsComponent implements OnInit {
 
     amountFormControl: FormControl = new FormControl();
 
+    addButtonFormControl: FormControl = new FormControl();
+
     @ViewChild(MatTable) table: MatTable<Payment> | undefined;
 
-    constructor(private gridService: GridService, private paymentsService: PaymentsService) { }
-
-    ngOnInit(): void {
+    constructor(private gridService: GridService, private paymentsService: PaymentsService) {
 	this.gridService.grid$.subscribe({
-	    next: (grid: Grid) => { this.grid = grid; }
-	})
+	    next: (grid: Grid) => {
+		this.grid = grid;
+	    }
+	});
+    }
+
+    ngOnInit() {
+	// TODO: This should be improved. It is being set to ensure the correct initial state...
+	this.grid = this.gridService.getGrid();
 	this.addPaymentFormGroup.addControl('name', this.nameFormControl);
 	this.addPaymentFormGroup.addControl('amount', this.amountFormControl);
+	this.addPaymentFormGroup.addControl('add', this.addButtonFormControl);
+	if (this.grid.getCode() === EMPTY_CODE) {
+	    this.addPaymentFormGroup.disable();
+	} else {
+	    this.addPaymentFormGroup.enable();
+	}
+
     }
 
     getCode(grid: Grid): string {
 	return grid.getCode();
-    }
-
-    getGrid(): Grid {
-	return this.grid;
     }
 
     getPayments(): Payment[] {
@@ -57,7 +67,7 @@ export class PaymentsComponent implements OnInit {
     onFormSubmit() {
 	console.log(this.addPaymentFormGroup.get('name'));
 	if (this.nameFormControl.valid && this.amountFormControl.valid) {
-	    let grid = this.getGrid();
+	    let grid = this.grid;
 	    this.paymentsService.add({
 		name: this.nameFormControl.value,
 		amount: this.amountFormControl.value,

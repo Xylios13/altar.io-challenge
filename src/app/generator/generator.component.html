@@ -28,7 +28,7 @@
 </div>
 <!-- Grid -->
 <div class="grid-container">
-  <mat-grid-list [cols]="getColumns() + 1" [rowHeight]="getRowHeight()">
+  <mat-grid-list [cols]="getNumberOfColumns() + 1" [rowHeight]="getRowHeight()">
     <!-- Cell 0 0 -->
     <mat-grid-tile> </mat-grid-tile>
     <!-- Row with column indexes -->
@@ -54,17 +54,4 @@
   </mat-grid-list>
 </div>
 <!-- Live status -->
-<div class="centered-container">
-  <div class="live-status" *ngIf="generating else standby">
-    Live!
-  </div>
-  <div class="break"></div> <!-- break -->
-  <!-- Code -->
-  <button mat-stroked-button *ngIf="generating"
-	  disabled=true>
-    Your code: {{code}}
-  </button>
-</div>
-<ng-template #standby>
-  Standby
-</ng-template>
+<app-live-status></app-live-status>

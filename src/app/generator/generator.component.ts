@@ -24,44 +24,29 @@ export class WeightedCharacterMatcher implements ErrorStateMatcher {
 export class GeneratorComponent implements OnInit {
     grid: Grid = new Grid(0, 0);
 
-    displayedColumns: string[] = [];
-
-    rowIndexName = 'row-index';
-
     time: Date = new Date();
-
-    timeSubscription: Subscription | null = null;
-
-    gridCellCount: Map<number, number> = new Map();
-
-    generating = false;
-
-    code = '';
 
     weightedCharacterFormControl = new FormControl('', [Validators.pattern(new RegExp('[a-zA-Z]'))]);
 
     weightedCharacterMatcher = new WeightedCharacterMatcher();
-
-    weights: number[] = [];
-
-    generation$ = new Subject<void>();
 
     constructor(private gridService: GridService, private timeService: TimeService) {
 	this.timeService.time$.subscribe({
 	    next: (time: Date) => { this.time = time }
 	});
 	this.gridService.grid$.subscribe({
-	    next: (grid: Grid) => { this.grid = grid, this.code = grid.getCode() }
+	    next: (grid: Grid) => { this.grid = grid }
 	});
 	this.weightedCharacterFormControl.setValue('');
     }
 
     ngOnInit(): void {
+	// TODO: This should be improved. It is being set to ensure the correct initial state...
 	this.grid = this.gridService.getGrid();
 	this.weightedCharacterFormControl.setValue(this.gridService.weightedCharacter);
     }
 
-    getColumns(): number {
+    getNumberOfColumns(): number {
 	return this.grid.columns;
     }
 
@@ -82,7 +67,6 @@ export class GeneratorComponent implements OnInit {
     }
 
     generationOnClick() {
-	this.generating = true;
 	this.gridService.startGrid();
     }
 }

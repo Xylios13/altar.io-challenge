@@ -35,20 +35,8 @@ mat-grid-tile {
     flex-wrap: wrap;
 }
 
-.centered-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
 .flex-end {
     align-self: flex-end;
-}
-
-.break {
-  flex-basis: 100%;
-  height: 0;
 }
 
 .grid-container {

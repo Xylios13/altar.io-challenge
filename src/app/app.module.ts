@@ -5,19 +5,22 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
+import { MatCardModule } from '@angular/material/card';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { GeneratorComponent } from './generator/generator.component';
 import { PaymentsComponent } from './payments/payments.component';
 import { AppRoutingModule } from './app-routing.module';
+import { LiveStatusComponent } from './live-status/live-status.component';
 
 
 @NgModule({
     declarations: [
 	AppComponent,
 	GeneratorComponent,
-	PaymentsComponent
+	PaymentsComponent,
+	LiveStatusComponent
     ],
     imports: [
 	AppRoutingModule,
@@ -25,6 +28,7 @@ import { AppRoutingModule } from './app-routing.module';
 	BrowserModule,
 	FormsModule,
 	MatButtonModule,
+	MatCardModule,
 	MatGridListModule,
 	MatInputModule,
 	MatTableModule,
