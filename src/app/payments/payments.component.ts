@@ -24,6 +24,8 @@ export class PaymentsComponent implements OnInit {
 
     grid: Grid = new Grid(0, 0);
 
+    payments: Payment[] = [];
+
     addPaymentFormGroup: FormGroup = new FormGroup({});
 
     nameFormControl: FormControl = new FormControl();
@@ -53,6 +55,7 @@ export class PaymentsComponent implements OnInit {
 	} else {
 	    this.addPaymentFormGroup.enable();
 	}
+	this.getPayments();
 
     }
 
@@ -60,12 +63,15 @@ export class PaymentsComponent implements OnInit {
 	return grid.getCode();
     }
 
-    getPayments(): Payment[] {
-	return this.paymentsService.getPayments();
+    getPayments() {
+	this.paymentsService.getPayments()
+	    .subscribe(payments => {
+		this.payments = payments;
+		this.table?.renderRows();
+	    });
     }
 
     onFormSubmit() {
-	console.log(this.addPaymentFormGroup.get('name'));
 	if (this.nameFormControl.valid && this.amountFormControl.valid) {
 	    let grid = this.grid;
 	    this.paymentsService.add({
@@ -74,7 +80,7 @@ export class PaymentsComponent implements OnInit {
 		code: this.getCode(grid),
 		grid: grid
 	    });
-	    this.table?.renderRows();
+	    this.getPayments();
 	}
     }
 

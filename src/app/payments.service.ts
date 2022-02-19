@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Grid } from './grid';
+import { Observable, of } from 'rxjs';
 
 export interface Payment {
     name: string;
@@ -20,7 +21,8 @@ export class PaymentsService {
 	this.payments.push(payment);
     }
 
-    getPayments(): Payment[] {
-	return this.payments.slice();
+    getPayments(): Observable<Payment[]> {
+	const payments = of(this.payments);
+	return payments;
     }
 }
