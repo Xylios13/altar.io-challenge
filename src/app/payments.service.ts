@@ -13,7 +13,7 @@ export interface Payment {
     providedIn: 'root'
 })
 export class PaymentsService {
-    payments: Payment[] = [];
+    private payments: Payment[] = [];
 
     constructor() { }
 
@@ -23,7 +23,7 @@ export class PaymentsService {
     }
 
     getPayments(): Observable<Payment[]> {
-	const payments = of(this.payments);
+	const payments = of(this.payments.slice());
 	return payments;
     }
 }

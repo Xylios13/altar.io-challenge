@@ -65,9 +65,9 @@ export class PaymentsComponent implements OnInit {
 
     getPayments() {
 	this.paymentsService.getPayments()
-	    .subscribe(payments => {
+	    .subscribe((payments: Payment[]) => {
 		this.payments = payments;
-		this.table?.renderRows();
+		// table.renderRows() isn't necessary because payments is a fresh array
 	    });
     }
 
