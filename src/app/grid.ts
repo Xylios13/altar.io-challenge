@@ -1,3 +1,5 @@
+export const EMPTY_CODE = '';
+
 interface Digits {
     first: number;
 
@@ -12,7 +14,7 @@ export class Grid implements Iterable<Array<number>> {
     // Minimum and maximum possible values for the cell (both limits are included).
     private cellValueRange = { min: 'a'.charCodeAt(0), max: 'z'.charCodeAt(0) };
 
-    code= '';
+    code = EMPTY_CODE;
 
     constructor(public rows: number, public columns: number, initialElement = ' '.charCodeAt(0)) {
 	for (let rowIndex = 0; rowIndex < this.rows; rowIndex++) {

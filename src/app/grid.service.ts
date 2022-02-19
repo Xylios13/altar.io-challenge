@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { mergeMap, Subject, take, timer } from 'rxjs';
 
-import { Grid } from './grid';
+import { EMPTY_CODE, Grid } from './grid';
 import { TimeService } from './time.service';
-
-export const EMPTY_CODE = '';
 
 @Injectable({
     providedIn: 'root'
@@ -42,6 +40,10 @@ export class GridService {
 		this.populateGrid(this.weightedCharacter);
 		this.grid$.next(this.grid);
 	    })
+    }
+
+    getEmptyCode(): string {
+	return EMPTY_CODE;
     }
 
     getCode(): string {

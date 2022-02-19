@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatTable } from '@angular/material/table';
 
 import { Grid } from '../grid';
-import { EMPTY_CODE, GridService } from '../grid.service';
+import { GridService } from '../grid.service';
 import { PaymentsService } from '../payments.service';
 
 
@@ -48,7 +48,7 @@ export class PaymentsComponent implements OnInit {
 	this.addPaymentFormGroup.addControl('name', this.nameFormControl);
 	this.addPaymentFormGroup.addControl('amount', this.amountFormControl);
 	this.addPaymentFormGroup.addControl('add', this.addButtonFormControl);
-	if (this.grid.getCode() === EMPTY_CODE) {
+	if (this.grid.getCode() === this.gridService.getEmptyCode()) {
 	    this.addPaymentFormGroup.disable();
 	} else {
 	    this.addPaymentFormGroup.enable();

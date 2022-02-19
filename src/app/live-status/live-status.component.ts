@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Grid } from '../grid';
 
-import { EMPTY_CODE, GridService } from '../grid.service';
+import { GridService } from '../grid.service';
 
 @Component({
     selector: 'app-live-status',
@@ -9,16 +9,17 @@ import { EMPTY_CODE, GridService } from '../grid.service';
     styleUrls: ['./live-status.component.scss']
 })
 export class LiveStatusComponent implements OnInit {
-    code = EMPTY_CODE;
+    code: string;
 
     constructor(private gridService: GridService) {
+	this.code = this.gridService.getEmptyCode();
 	this.gridService.grid$.subscribe({
 	    next: (grid: Grid) => { this.code = grid.getCode() }
 	});
     }
 
     generating(): boolean {
-	return this.code !== EMPTY_CODE;
+	return this.code !== this.gridService.getEmptyCode();
     }
 
 
