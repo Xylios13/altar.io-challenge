@@ -17,8 +17,9 @@ export class PaymentsService {
 
     constructor() { }
 
-    add(payment: Payment) {
+    addPayment(payment: Payment): Observable<boolean> {
 	this.payments.push(payment);
+	return of(true);
     }
 
     getPayments(): Observable<Payment[]> {

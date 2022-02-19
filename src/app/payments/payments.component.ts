@@ -74,14 +74,16 @@ export class PaymentsComponent implements OnInit {
     onFormSubmit() {
 	if (this.nameFormControl.valid && this.amountFormControl.valid) {
 	    let grid = this.grid;
-	    this.paymentsService.add({
+	    this.paymentsService.addPayment({
 		name: this.nameFormControl.value,
 		amount: this.amountFormControl.value,
 		code: this.getCode(grid),
 		grid: grid
+	    }).subscribe(success => {
+		if (success) {
+		    this.getPayments();
+		}
 	    });
-	    this.getPayments();
 	}
     }
-
 }
