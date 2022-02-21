@@ -94,6 +94,10 @@ export class Grid implements Iterable<Array<number>> {
 	let min = this.cellValueRange.min;
 	let max = this.cellValueRange.max + 1; // Adding one to include the max value
 	let totalCharacters = max - min;
+	// Note: This isn't being used. I didn't delete this so we
+	// could discuss the possibility of each cell having a 20%
+	// weighted character instead of having the 20% weighted
+	// character on the whole grid.
 	if (weightedCharacter && weightedCharacter !== '') {
 	    let weightedIndex = weightedCharacter.charCodeAt(0) - min;
 	    let defaultWeight = (1 - weight) / (totalCharacters - 1);
