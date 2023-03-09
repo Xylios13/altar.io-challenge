@@ -4,11 +4,11 @@
   <mat-form-field class="weighted-character margin-left" appearance="fill">
     <mat-label>Weighted character</mat-label>
     <input matInput
-	   type="text"
-	   maxlength="1"
-	   [formControl]="weightedCharacterFormControl"
-	   [errorStateMatcher]="weightedCharacterMatcher"
-	   (input)="weightedCharacterOnInput()">
+      type="text"
+      maxlength="1"
+      [formControl]="weightedCharacterFormControl"
+      [errorStateMatcher]="weightedCharacterMatcher"
+      (input)="weightedCharacterOnInput()">
     <mat-hint align="end">{{weightedCharacterFormControl.value.length}}/1</mat-hint>
     <mat-error *ngIf="weightedCharacterFormControl.hasError('pattern')">
       Enter a character from 'a' to 'z'
@@ -20,9 +20,9 @@
   </div>
   <!-- Generation button -->
   <button mat-stroked-button
-	  class="margin-right"
-	  name="generation-button"
-	  (click)="generationOnClick()">
+    class="margin-right"
+    name="generation-button"
+    (click)="generationOnClick()">
     Generate 2D Grid
   </button>
 </div>
@@ -35,20 +35,20 @@
     <ng-container *ngFor="let cell of grid.getRow(0); let columnIndex = index">
       <!-- Cell for column index -->
       <mat-grid-tile>
-	{{columnIndex}}
+        {{columnIndex}}
       </mat-grid-tile>
     </ng-container>
     <!-- Grid with row index column -->
     <ng-container *ngFor="let row of grid; let rowIndex = index">
       <!-- Cell for row index -->
       <mat-grid-tile>
-	{{rowIndex}}
+        {{rowIndex}}
       </mat-grid-tile>
       <!-- Cells for grid[column][row] -->
       <ng-container *ngFor="let cell of row; let rowIndex = index">
-	<mat-grid-tile colspan="1">
-	  {{displayCellValue(cell)}}
-	</mat-grid-tile>
+        <mat-grid-tile colspan="1">
+          {{displayCellValue(cell)}}
+        </mat-grid-tile>
       </ng-container>
     </ng-container>
   </mat-grid-list>

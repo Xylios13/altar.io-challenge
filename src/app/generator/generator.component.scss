@@ -1,28 +1,28 @@
 @use '../../styles';
 
 mat-grid-tile {
-    border: 1px solid;
+  border: 1px solid;
 }
 
 .weighted-character {
-    width: 200px;
+  width: 200px;
 }
 
 .container {
-    display: flex;
-    justify-content: space-between;
-    align-content: center;
-    align-items: center;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .flex-end {
-    align-self: flex-end;
+  align-self: flex-end;
 }
 
 .grid-container {
-    width: 95vw;
-    margin: auto;
-    margin-top: 10px;
-    margin-bottom: 10px;
+  width: 95vw;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }

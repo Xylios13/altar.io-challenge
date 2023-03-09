@@ -8,82 +8,82 @@ import { PaymentsService } from '../payments.service';
 
 
 export interface Payment {
-    name: string;
-    amount: number;
-    code: string;
-    grid: Grid;
+  name: string;
+  amount: number;
+  code: string;
+  grid: Grid;
 }
 
 @Component({
-    selector: 'app-payments',
-    templateUrl: './payments.component.html',
-    styleUrls: ['./payments.component.scss']
+  selector: 'app-payments',
+  templateUrl: './payments.component.html',
+  styleUrls: ['./payments.component.scss']
 })
 export class PaymentsComponent implements OnInit {
-    displayedColumns: string[] = ['name', 'amount', 'code', 'grid'];
+  displayedColumns: string[] = ['name', 'amount', 'code', 'grid'];
 
-    grid: Grid = new Grid(0, 0);
+  grid: Grid = new Grid(0, 0);
 
-    payments: Payment[] = [];
+  payments: Payment[] = [];
 
-    addPaymentFormGroup: FormGroup = new FormGroup({});
+  addPaymentFormGroup: FormGroup = new FormGroup({});
 
-    nameFormControl: FormControl = new FormControl();
+  nameFormControl: FormControl = new FormControl();
 
-    amountFormControl: FormControl = new FormControl();
+  amountFormControl: FormControl = new FormControl();
 
-    addButtonFormControl: FormControl = new FormControl();
+  addButtonFormControl: FormControl = new FormControl();
 
-    @ViewChild(MatTable) table: MatTable<Payment> | undefined;
+  @ViewChild(MatTable) table: MatTable<Payment> | undefined;
 
-    constructor(private gridService: GridService, private paymentsService: PaymentsService) {
-	this.gridService.grid$.subscribe({
-	    next: (grid: Grid) => {
-		this.grid = grid;
-	    }
-	});
+  constructor(private gridService: GridService, private paymentsService: PaymentsService) {
+    this.gridService.grid$.subscribe({
+      next: (grid: Grid) => {
+        this.grid = grid;
+      }
+    });
+  }
+
+  ngOnInit() {
+    // TODO: This should be improved. It is being set to ensure the correct initial state...
+    this.grid = this.gridService.getGrid();
+    this.addPaymentFormGroup.addControl('name', this.nameFormControl);
+    this.addPaymentFormGroup.addControl('amount', this.amountFormControl);
+    this.addPaymentFormGroup.addControl('add', this.addButtonFormControl);
+    if (this.grid.getCode() === this.gridService.getEmptyCode()) {
+      this.addPaymentFormGroup.disable();
+    } else {
+      this.addPaymentFormGroup.enable();
     }
+    this.getPayments();
 
-    ngOnInit() {
-	// TODO: This should be improved. It is being set to ensure the correct initial state...
-	this.grid = this.gridService.getGrid();
-	this.addPaymentFormGroup.addControl('name', this.nameFormControl);
-	this.addPaymentFormGroup.addControl('amount', this.amountFormControl);
-	this.addPaymentFormGroup.addControl('add', this.addButtonFormControl);
-	if (this.grid.getCode() === this.gridService.getEmptyCode()) {
-	    this.addPaymentFormGroup.disable();
-	} else {
-	    this.addPaymentFormGroup.enable();
-	}
-	this.getPayments();
+  }
 
+  getCode(grid: Grid): string {
+    return grid.getCode();
+  }
+
+  getPayments() {
+    this.paymentsService.getPayments()
+      .subscribe((payments: Payment[]) => {
+        this.payments = payments;
+        // table.renderRows() isn't necessary because payments is a fresh array
+      });
+  }
+
+  onFormSubmit() {
+    if (this.nameFormControl.valid && this.amountFormControl.valid) {
+      let grid = this.grid;
+      this.paymentsService.addPayment({
+        name: this.nameFormControl.value,
+        amount: this.amountFormControl.value,
+        code: this.getCode(grid),
+        grid: grid
+      }).subscribe(success => {
+        if (success) {
+          this.getPayments();
+        }
+      });
     }
-
-    getCode(grid: Grid): string {
-	return grid.getCode();
-    }
-
-    getPayments() {
-	this.paymentsService.getPayments()
-	    .subscribe((payments: Payment[]) => {
-		this.payments = payments;
-		// table.renderRows() isn't necessary because payments is a fresh array
-	    });
-    }
-
-    onFormSubmit() {
-	if (this.nameFormControl.valid && this.amountFormControl.valid) {
-	    let grid = this.grid;
-	    this.paymentsService.addPayment({
-		name: this.nameFormControl.value,
-		amount: this.amountFormControl.value,
-		code: this.getCode(grid),
-		grid: grid
-	    }).subscribe(success => {
-		if (success) {
-		    this.getPayments();
-		}
-	    });
-	}
-    }
+  }
 }

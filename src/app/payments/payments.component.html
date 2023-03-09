@@ -3,30 +3,25 @@
 
 <!-- Add payment -->
 <form class="add-payment-form"
-      [formGroup]="addPaymentFormGroup"
-      (ngSubmit)="onFormSubmit()">
+  [formGroup]="addPaymentFormGroup"
+  (ngSubmit)="onFormSubmit()">
   <mat-form-field class="margin-left">
     <mat-label>Payment</mat-label>
-    <input matInput
-	   type="text"
-	   [required]="true"
-	   [formControl]="nameFormControl">
+    <input matInput type="text" [required]="true" [formControl]="nameFormControl">
   </mat-form-field>
   <mat-form-field>
     <mat-label>Amount</mat-label>
-    <input matInput
-	   type="number"
-	   [required]="true"
-	   [formControl]="amountFormControl">
-
+    <input matInput type="number" [required]="true" [formControl]="amountFormControl">
   </mat-form-field>
-  <button mat-raised-button [disabled]="addPaymentFormGroup.disabled || !addPaymentFormGroup.valid" #addButton type="submit">
+  <button mat-raised-button
+    [disabled]="addPaymentFormGroup.disabled || !addPaymentFormGroup.valid"
+    #addButton
+    type="submit">
     + Add
   </button>
 </form>
 <!-- Payments -->
 <table mat-table [dataSource]="payments" class="mat-elevation-z8">
-
   <!--- Note that these columns can be defined in any order.
       The actual rendered columns are set as a property on the row definition" -->
 

@@ -17,26 +17,26 @@ import { LiveStatusComponent } from './live-status/live-status.component';
 
 
 @NgModule({
-    declarations: [
-	AppComponent,
-	GeneratorComponent,
-	PaymentsComponent,
-	LiveStatusComponent
-    ],
-    imports: [
-	AppRoutingModule,
-	BrowserAnimationsModule,
-	BrowserModule,
-	FormsModule,
-	MatButtonModule,
-	MatCardModule,
-	MatGridListModule,
-	MatIconModule,
-	MatInputModule,
-	MatTableModule,
-	ReactiveFormsModule
-    ],
-    providers: [],
-    bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    GeneratorComponent,
+    PaymentsComponent,
+    LiveStatusComponent
+  ],
+  imports: [
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    BrowserModule,
+    FormsModule,
+    MatButtonModule,
+    MatCardModule,
+    MatGridListModule,
+    MatIconModule,
+    MatInputModule,
+    MatTableModule,
+    ReactiveFormsModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
