@@ -1,0 +1,18 @@
+<div class="centered-container">
+  <!-- Live Icon & Status -->
+  <div class="live-status" *ngIf="generating() else standby">
+    <mat-icon class="live">fiber_manual_record</mat-icon>
+    Live!
+  </div>
+  <!-- Break -->
+  <div class="break"></div>
+  <!-- Code -->
+  <mat-card mat-stroked-button *ngIf="generating()"
+	  disabled=true>
+    Your code: {{code}}
+  </mat-card>
+</div>
+<!-- Standby Status -->
+<ng-template #standby>
+  Standby
+</ng-template>
